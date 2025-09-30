@@ -13,11 +13,14 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-50">
         <!-- Navigation -->
-        <nav class="bg-white shadow-lg">
+        <nav class="bg-white shadow-lg" x-data="{ mobileMenuOpen: false }">
             <div class="container-custom">
                 <div class="flex justify-between items-center py-4">
                     <div class="flex items-center">
@@ -44,28 +47,59 @@
 
                     <!-- Mobile menu button -->
                     <div class="md:hidden">
-                        <button type="button" class="text-gray-700 hover:text-primary-600 focus:outline-none focus:text-primary-600" x-data="{ open: false }" @click="open = !open">
+                        <button 
+                            type="button" 
+                            class="text-gray-700 hover:text-primary-600 focus:outline-none focus:text-primary-600 p-2" 
+                            @click="mobileMenuOpen = !mobileMenuOpen"
+                            :aria-expanded="mobileMenuOpen"
+                            aria-label="Toggle mobile menu"
+                        >
                             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                                <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                <path x-show="mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
                 </div>
 
                 <!-- Mobile Navigation -->
-                <div class="md:hidden" x-data="{ open: false }" x-show="open" x-transition>
-                    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50">
-                        <a href="{{ route('home') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 transition duration-300 {{ request()->routeIs('home') ? 'text-primary-600 font-semibold' : '' }}">
+                <div 
+                    class="md:hidden" 
+                    x-show="mobileMenuOpen" 
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 transform scale-95"
+                    x-transition:enter-end="opacity-100 transform scale-100"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 transform scale-100"
+                    x-transition:leave-end="opacity-0 transform scale-95"
+                >
+                    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 border-t border-gray-200">
+                        <a 
+                            href="{{ route('home') }}" 
+                            class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-100 rounded-md transition duration-300 {{ request()->routeIs('home') ? 'text-primary-600 font-semibold bg-primary-50' : '' }}"
+                            @click="mobileMenuOpen = false"
+                        >
                             Home
                         </a>
-                        <a href="{{ route('about') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 transition duration-300 {{ request()->routeIs('about') ? 'text-primary-600 font-semibold' : '' }}">
+                        <a 
+                            href="{{ route('about') }}" 
+                            class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-100 rounded-md transition duration-300 {{ request()->routeIs('about') ? 'text-primary-600 font-semibold bg-primary-50' : '' }}"
+                            @click="mobileMenuOpen = false"
+                        >
                             About
                         </a>
-                        <a href="{{ route('services') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 transition duration-300 {{ request()->routeIs('services') ? 'text-primary-600 font-semibold' : '' }}">
+                        <a 
+                            href="{{ route('services') }}" 
+                            class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-100 rounded-md transition duration-300 {{ request()->routeIs('services') ? 'text-primary-600 font-semibold bg-primary-50' : '' }}"
+                            @click="mobileMenuOpen = false"
+                        >
                             Services
                         </a>
-                        <a href="{{ route('contact') }}" class="block px-3 py-2 text-gray-700 hover:text-primary-600 transition duration-300 {{ request()->routeIs('contact') ? 'text-primary-600 font-semibold' : '' }}">
+                        <a 
+                            href="{{ route('contact') }}" 
+                            class="block px-3 py-2 text-gray-700 hover:text-primary-600 hover:bg-gray-100 rounded-md transition duration-300 {{ request()->routeIs('contact') ? 'text-primary-600 font-semibold bg-primary-50' : '' }}"
+                            @click="mobileMenuOpen = false"
+                        >
                             Contact
                         </a>
                     </div>
